@@ -1,6 +1,6 @@
 import { fetchPokemonCard } from './card.js';
 const pokeBaseUrl = 'https://pokeapi.co/api/v2/';
-const tcgBaseUrl = 'https://api.pokemontcg.io/v2/';
+
 
 async function fetchPokemon(pokemon) {
     try {
@@ -28,10 +28,12 @@ function displayPokemon(data) {
     image.alt = data.name;
     container.appendChild(image);
 
+    const pokemonInfo = document.createElement('div');
+
     // Add Pokémon name
     const name = document.createElement('h2');
     name.textContent = data.name.toUpperCase();
-    container.appendChild(name);
+    pokemonInfo.appendChild(name);
 
     // Add base stats
     const stats = document.createElement('ul');
@@ -41,7 +43,9 @@ function displayPokemon(data) {
         statItem.textContent = `${stat.stat.name}: ${stat.base_stat}`;
         stats.appendChild(statItem);
     });
-    container.appendChild(stats);
+    pokemonInfo.appendChild(stats);
+
+    container.appendChild(pokemonInfo);
 
     // Append the container to the #pokemon-display div
     const displayDiv = document.getElementById('pokemon-display');

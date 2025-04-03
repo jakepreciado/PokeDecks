@@ -6,18 +6,71 @@
 * {
     margin: auto;
     max-width: 1600px;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+}
+
+.pokedecks-title-logo {
+    display: block;
+    place-self: center;
+    width: 300px;
+    height: auto;
+    padding: 10px;
+}
+
+header {
     font-family: 'PokemonClassic', sans-serif;
 }
 
-body img {
+header a {
+    text-decoration: none;
+    color: black;
+}
+
+header a:hover {
+    color: rgb(151, 151, 151);
+}
+
+nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.search-bar {
     display: block;
-    place-self: center;
-    width: 500px;
-    height: auto;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+.pokemon-container {
+    max-width: 600px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-family: 'PokemonClassic', sans-serif;
+    border: 2px solid black;
+    border-radius: 8px;
 }
 
 .pokemon-container img {
     width: 300px;
     height: auto;
+}
 
+
+
+.card-grid {
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.card-info {
+    text-align: center;
 }

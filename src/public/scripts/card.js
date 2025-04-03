@@ -14,6 +14,7 @@ async function fetchPokemonCard(pokemon) {
         }
         const data = await response.json();
         displayPokemonCard(data.data); // Call function to display all card data
+        console.log(data); // Log the card data for debugging
     } catch (error) {
         console.error('Failed to fetch Pokémon card:', error);
         const cardDisplayDiv = document.getElementById('card-display');
@@ -41,8 +42,26 @@ function displayPokemonCard(cards) {
         cardImage.alt = card.name;
         cardContainer.appendChild(cardImage);
 
-        // Append the card container to the card display div
+        // Add card information
+        const cardInfo = document.createElement('div');
+        cardInfo.classList.add('card-info');
+        const setName = document.createElement('h3');
+        setName.textContent = card.set.name; // Set name
+        const rarity = document.createElement('p');
+        rarity.textContent = `Rarity: ${card.rarity}`; // Card rarity
+        const cardValue = document.createElement('p');
+        const cardPrice = card.cardmarket?.prices?.averageSellPrice;
+        cardValue.textContent = cardPrice
+            ? `Value: $${cardPrice.toFixed(2)} USD`
+            : `Value: Not available`;
+
+        cardInfo.appendChild(setName);
+        cardInfo.appendChild(rarity);
+        cardInfo.appendChild(cardValue);
+        cardContainer.appendChild(cardInfo);
+
         cardDisplayDiv.appendChild(cardContainer);
+
     });
 }
 

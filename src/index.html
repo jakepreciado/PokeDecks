@@ -1,27 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PokeDecks</title>
-    <link rel="stylesheet" href="./public/styles/styles.css">
-    <script type="module" src="./public/scripts/pokemon.js" defer></script>
-    <script type="module" src="./public/scripts/card.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/favicon-16x16.png" type="image/png">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <script type="module" src="/scripts/pokemon.js" defer></script>
+    <script type="module" src="/scripts/card.js" defer></script>
 </head>
+
 <body>
     <header>
+
+
+        <!-- TODO: Add a autofill/suggestion feature of names? -->
         <nav>
+            <a href="/my-collection.html">My Collection</a>
+            <img class="pokedecks-title-logo" src="/images/pokedecks-title-logo.png" alt="PokeDecks Title Logo">
+            <a href="/login.html">Login</a>
+        </nav>
+
+
+    </header>
+    <main>
+        <div class="search-bar">
             <input type="text" id="search-input" placeholder="Search Pokémon...">
             <button id="search-button">Search</button>
-        </nav>
-    </header>
-    <img src="./public/images/pokedecks-title-logo.png" alt="PokeDecks Title Logo">
-    <div id="pokemon-display">
-        <!-- Pokémon details will be dynamically added here -->
-    </div>
-    <hr>
-    <div id="card-display">
-        <!-- Pokémon cards will be dynamically added here -->
-    </div>
+        </div>
+        <div id="pokemon-display">
+            <!-- Pokémon details will be dynamically added here -->
+        </div>
+        <div class="card-grid" id="card-display">
+            <!-- Pokémon cards will be dynamically added here -->
+        </div>
+    </main>
 </body>
+
 </html>
