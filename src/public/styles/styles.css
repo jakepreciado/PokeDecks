@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'PokemonClassic';
+    src: url('../fonts/pokemon-classic.ttf') format('truetype');
+}
+
+* {
+    margin: auto;
+    max-width: 1600px;
+    font-family: 'PokemonClassic', sans-serif;
+}
+
+body img {
+    display: block;
+    place-self: center;
+    width: 500px;
+    height: auto;
+}
+
+.pokemon-container img {
+    width: 300px;
+    height: auto;
+
+}
