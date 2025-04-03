@@ -29,6 +29,7 @@ function displayPokemon(data) {
     container.appendChild(image);
 
     const pokemonInfo = document.createElement('div');
+    pokemonInfo.classList.add('pokemon-info');
 
     // Add Pokémon name
     const name = document.createElement('h2');
@@ -37,10 +38,21 @@ function displayPokemon(data) {
 
     // Add base stats
     const stats = document.createElement('ul');
-    stats.textContent = 'Base Stats:';
+    stats.classList.add('stats-list');
+    const pokemonTypes = document.createElement('div');
+    pokemonTypes.classList.add('pokemon-types');
+    data.types.forEach(typeInfo => {
+        const pokemonType = document.createElement('p');
+        pokemonType.textContent = `${typeInfo.type.name}`;
+        pokemonTypes.appendChild(pokemonType);
+    });
+    pokemonInfo.appendChild(pokemonTypes);
+
+
+    stats.textContent = 'BASE STATS';
     data.stats.forEach(stat => {
         const statItem = document.createElement('li');
-        statItem.textContent = `${stat.stat.name}: ${stat.base_stat}`;
+        statItem.textContent = `${stat.stat.name.toUpperCase()}: ${stat.base_stat}`;
         stats.appendChild(statItem);
     });
     pokemonInfo.appendChild(stats);
