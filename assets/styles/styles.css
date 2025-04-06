@@ -71,10 +71,10 @@ nav {
     font-family: 'PokemonClassic', sans-serif;
 }
 
-.pokemon-sprite-grid {
+/* .pokemon-sprite-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
+} */
 
 .pokemon-sprite-card {
     width: 240px;
