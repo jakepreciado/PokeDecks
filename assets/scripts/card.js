@@ -70,6 +70,31 @@ function displayPokemonCard(cards) {
         cardContainer.appendChild(cardInfo);
 
         cardDisplayDiv.appendChild(cardContainer);
-
     });
 }
+
+// Event listeners for search functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search-input');
+    const searchButton = document.getElementById('search-button');
+
+    // Trigger search on button click
+    searchButton.addEventListener('click', () => {
+        const pokemon = searchInput.value.trim().toLowerCase();
+        console.log(`Searching for ${pokemon} cards...`)
+        if (pokemon) {
+            fetchPokemonCard(pokemon);
+        }
+    });
+
+    // Trigger search on pressing "Enter"
+    searchInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            const pokemon = searchInput.value.trim().toLowerCase();
+            console.log(`Searching for ${pokemon} cards...`)
+            if (pokemon) {
+                fetchPokemonCard(pokemon);
+            }
+        }
+    });
+});
