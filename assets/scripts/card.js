@@ -40,6 +40,15 @@ function displayPokemonCard(cards) {
         const cardImage = document.createElement('img');
         cardImage.src = card.images.small; // Small card image
         cardImage.alt = card.name;
+        cardImage.setAttribute('loading', 'lazy'); // Lazy load the image
+        cardImage.setAttribute('width', '240'); // Set width for the image
+        cardImage.setAttribute('height', '330'); // Set height for the image
+        cardImage.classList.add('pokemon-card-image');
+
+        // cardImage.onerror = () => {
+        //     cardImage.src = '/path/to/placeholder-image.png'; // Replace with the actual path to your placeholder image
+        // };
+
         cardContainer.appendChild(cardImage);
 
         // Add card information
