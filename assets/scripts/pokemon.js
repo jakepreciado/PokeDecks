@@ -1,6 +1,4 @@
-import { fetchPokemonCard } from './card.js';
 const pokeBaseUrl = 'https://pokeapi.co/api/v2/';
-
 
 async function fetchPokemon(pokemon) {
     try {
@@ -36,26 +34,25 @@ function displayPokemon(data) {
     name.textContent = data.name.toUpperCase();
     pokemonInfo.appendChild(name);
 
-    // Add base stats
-    const stats = document.createElement('ul');
-    stats.classList.add('stats-list');
-    const pokemonTypes = document.createElement('div');
-    pokemonTypes.classList.add('pokemon-types');
-    data.types.forEach(typeInfo => {
-        const pokemonType = document.createElement('p');
-        pokemonType.textContent = `${typeInfo.type.name}`;
-        pokemonTypes.appendChild(pokemonType);
-    });
-    pokemonInfo.appendChild(pokemonTypes);
+    // // Add base stats
+    // const stats = document.createElement('div');
+    // stats.classList.add('stats-list');
+    // const pokemonTypes = document.createElement('div');
+    // pokemonTypes.classList.add('pokemon-types');
+    // data.types.forEach(typeInfo => {
+    //     const pokemonType = document.createElement('p');
+    //     pokemonType.textContent = `${typeInfo.type.name}`;
+    //     pokemonTypes.appendChild(pokemonType);
+    // });
+    // pokemonInfo.appendChild(pokemonTypes);
 
 
-    stats.textContent = 'BASE STATS';
-    data.stats.forEach(stat => {
-        const statItem = document.createElement('li');
-        statItem.textContent = `${stat.stat.name.toUpperCase()}: ${stat.base_stat}`;
-        stats.appendChild(statItem);
-    });
-    pokemonInfo.appendChild(stats);
+    // data.stats.forEach(stat => {
+    //     const statItem = document.createElement('p');
+    //     statItem.textContent = `${stat.stat.name.toUpperCase()}: ${stat.base_stat}`;
+    //     stats.appendChild(statItem);
+    // });
+    // pokemonInfo.appendChild(stats);
 
     container.appendChild(pokemonInfo);
 
@@ -75,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const pokemon = searchInput.value.trim();
         if (pokemon) {
             fetchPokemon(pokemon);
-            fetchPokemonCard(pokemon); 
+            fetchPokemonCard(pokemon);
         }
     });
 
@@ -85,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const pokemon = searchInput.value.trim();
             if (pokemon) {
                 fetchPokemon(pokemon);
-                fetchPokemonCard(pokemon); 
+                fetchPokemonCard(pokemon);
             }
         }
     });

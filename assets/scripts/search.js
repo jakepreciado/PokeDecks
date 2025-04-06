@@ -1,5 +1,3 @@
-const pokeBaseUrl = 'https://pokeapi.co/api/v2/';
-
 // Fetch Pokémon data by name or ID
 async function fetchPokemonData(query) {
     try {

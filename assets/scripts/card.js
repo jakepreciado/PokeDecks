@@ -73,6 +73,3 @@ function displayPokemonCard(cards) {
 
     });
 }
-
-// Export the functions if needed (for modularity in ES6+ environments)
-export { fetchPokemonCard, displayPokemonCard };
