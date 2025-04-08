@@ -37,6 +37,11 @@ header {
     font-family: 'PokemonClassic', sans-serif;
 }
 
+.header {
+    display: flex;
+    margin: auto;
+}
+
 header a {
     text-decoration: none;
     color: black;
@@ -177,11 +182,35 @@ nav {
     background-color: rgb(217, 0, 0);
     color: white;
 }
+.hamburger-menu {
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+}
 
-@media screen and (max-width: 376px) {
+.hamburger-menu .bar {
+    width: 30px;
+    height: 5px;
+    background-color: black;
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 768px) {
     /* .pokemon-container {
         grid-template-columns: 1fr;
     } */
+
+    #navbar {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .hamburger-menu {
+        display: flex;
+        margin: 10px;
+    }
 
     .search-bar {
         width: 100%;
