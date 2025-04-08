@@ -81,9 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Trigger search on button click
     searchButton.addEventListener('click', () => {
         const pokemon = searchInput.value.trim().toLowerCase();
-        console.log(`Searching for ${pokemon} cards...`)
+        console.log(`Searching for ${pokemon} cards...`);
         if (pokemon) {
-            fetchPokemonCard(pokemon);
+            // Redirect to the new page with the search query as a URL parameter
+            window.location.href = `pokemon.html?query=${encodeURIComponent(pokemon)}`;
         }
     });
 
@@ -91,10 +92,24 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
             const pokemon = searchInput.value.trim().toLowerCase();
-            console.log(`Searching for ${pokemon} cards...`)
+            console.log(`Searching for ${pokemon} cards...`);
             if (pokemon) {
-                fetchPokemonCard(pokemon);
+                // Redirect to the new page with the search query as a URL parameter
+                window.location.href = `pokemon.html?query=${encodeURIComponent(pokemon)}`;
             }
         }
     });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.pathname.endsWith('pokemon.html')) {
+        // Extract the query parameter from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('query');
+
+        if (query) {
+            // Fetch and display the Pokémon card data
+            fetchPokemonCard(query);
+        }
+    }
 });

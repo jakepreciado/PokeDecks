@@ -8,6 +8,19 @@
     max-width: 1600px;
 }
 
+/* Ensure the body and html take up the full height of the viewport */
+ body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+}
+
 body {
     font-family: 'Quicksand', sans-serif;
 }
@@ -36,6 +49,10 @@ header a:hover {
 nav {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+}
+
+.filters {
+    width: 1290px;
 }
 
 .search-bar {
@@ -150,4 +167,39 @@ nav {
     cursor: pointer;
     border: solid 1px #000;
     border-radius: 8px;
+}
+
+.footer-content {
+    margin-top: 50px;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background-color: rgb(217, 0, 0);
+    color: white;
+}
+
+@media screen and (max-width: 376px) {
+    /* .pokemon-container {
+        grid-template-columns: 1fr;
+    } */
+
+    .search-bar {
+        width: 100%;
+    }
+
+    /* .search-bar input {
+        width: 80%;
+        margin-right: 5px;
+    } */
+
+    .filters {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .filters select {
+        width: 80%;
+        margin-bottom: 10px;
+    }
+    
 }

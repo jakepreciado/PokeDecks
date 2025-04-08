@@ -54,8 +54,7 @@ function displayPokemonType(types) {
 
             // Add click event to fetch and display Pokémon stats
             card.addEventListener('click', () => {
-                fetchPokemon(data.name);
-                fetchPokemonCard(data.name);
+                window.location.href = `pokemon.html?query=${encodeURIComponent(data.name)}`;
             });
 
             container.appendChild(card);
@@ -77,6 +76,48 @@ async function fetchPokemonByGeneration(generation) {
         console.error(`Failed to fetch Pokémon of generation ${generation}:`, error);
         return [];
     }
+}
+
+function displayPokemonGeneration(generation) {
+    const displayDiv = document.getElementById('pokemon-display');
+    displayDiv.innerHTML = ''; // Clear previous content
+
+    const container = document.createElement('div');
+    container.classList.add('card-grid');
+
+    generation.forEach(async (pokemonName) => {
+        try {
+            // Fetch Pokémon data by name
+            const response = await fetch(`${pokeBaseUrl}pokemon/${pokemonName}`);
+            const data = await response.json();
+
+            const card = document.createElement('div');
+            card.classList.add('pokemon-sprite-card');
+
+            // Pokémon image
+            const image = document.createElement('img');
+            image.src = data.sprites.front_default;
+            image.alt = data.name;
+            card.appendChild(image);
+
+            // Pokémon name
+            const name = document.createElement('h3');
+            name.textContent = data.name.charAt(0).toUpperCase() + data.name.slice(1);
+            card.appendChild(name);
+
+            // Add click event to redirect to the new page
+            card.addEventListener('click', () => {
+                // Redirect to the new page with the Pokémon name as a query parameter
+                window.location.href = `pokemon.html?query=${encodeURIComponent(data.name)}`;
+            });
+
+            container.appendChild(card);
+        } catch (error) {
+            console.error(`Failed to fetch data for ${pokemonName}:`, error);
+        }
+    });
+
+    displayDiv.appendChild(container);
 }
 
 // Populate dropdowns for types and generations
@@ -106,36 +147,6 @@ async function populateDropdowns() {
     } catch (error) {
         console.error('Failed to populate dropdowns:', error);
     }
-}
-
-// Display Pokémon data
-function displayPokemon(data) {
-    const displayDiv = document.getElementById('pokemon-display');
-    displayDiv.innerHTML = ''; // Clear previous content
-
-    const container = document.createElement('div');
-    container.classList.add('pokemon-container');
-
-    const image = document.createElement('img');
-    image.src = data.sprites.front_default;
-    image.alt = data.name;
-    container.appendChild(image);
-
-    const name = document.createElement('h2');
-    name.textContent = data.name.toUpperCase();
-    container.appendChild(name);
-
-    const stats = document.createElement('ul');
-    stats.classList.add('stats-list');
-    stats.textContent = 'BASE STATS';
-    data.stats.forEach(stat => {
-        const statItem = document.createElement('li');
-        statItem.textContent = `${stat.stat.name.toUpperCase()}: ${stat.base_stat}`;
-        stats.appendChild(statItem);
-    });
-    container.appendChild(stats);
-
-    displayDiv.appendChild(container);
 }
 
 // Search Pokémon by name or ID
@@ -190,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const generation = filterGenerationSelect.value;
         if (generation) {
             const pokemonList = await fetchPokemonByGeneration(generation);
-            console.log(`Pokémon of generation ${generation}:`, pokemonList);
+            displayPokemonGeneration(pokemonList); // Display the Pokémon for the selected generation
         }
     });
 });
