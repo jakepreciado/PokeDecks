@@ -1,7 +1,15 @@
+import { fetchCardSets, fetchCardsBySet } from './card.js';
+const pokeBaseUrl = 'https://pokeapi.co/api/v2/';
+
+
+
 // Hamburger menu toggle
 document.getElementById('hamburger-menu').addEventListener('click', function () {
     document.getElementById('navbar').classList.toggle('show');
 });
+
+
+
 
 // Fetch Pokémon data by name or ID
 async function fetchPokemonData(query) {
@@ -16,6 +24,9 @@ async function fetchPokemonData(query) {
         return null;
     }
 }
+
+
+
 
 // Fetch Pokémon of a specific type
 async function fetchPokemonByType(type) {
@@ -71,6 +82,9 @@ function displayPokemonType(types) {
     displayDiv.appendChild(container);
 }
 
+
+
+
 // Fetch Pokémon of a specific generation
 async function fetchPokemonByGeneration(generation) {
     try {
@@ -125,6 +139,9 @@ function displayPokemonGeneration(generation) {
     displayDiv.appendChild(container);
 }
 
+
+
+
 // Populate dropdowns for types and generations
 async function populateDropdowns() {
     try {
@@ -149,10 +166,23 @@ async function populateDropdowns() {
             option.textContent = `Generation ${index + 1}`;
             generationDropdown.appendChild(option);
         });
+
+        // Populate sets (Pokémon TCG sets)
+        const sets = await fetchCardSets();
+        const setDropdown = document.getElementById('set-dropdown');
+        sets.forEach(set => {
+            const option = document.createElement('option');
+            option.value = set.id; // Use the set ID for querying
+            option.textContent = set.name; // Display the set name
+            setDropdown.appendChild(option);
+        });
     } catch (error) {
         console.error('Failed to populate dropdowns:', error);
     }
 }
+
+
+
 
 // Search Pokémon by name or ID
 async function searchPokemon(query) {
@@ -164,12 +194,18 @@ async function searchPokemon(query) {
     }
 }
 
+
+
+
+
+
 // Event listeners for search and filter
 document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('search-input');
     const searchButton = document.getElementById('search-button');
     const filterTypeSelect = document.getElementById('type-dropdown');
     const filterGenerationSelect = document.getElementById('generation-dropdown');
+    const filterSetSelect = document.getElementById('set-dropdown');
 
     // Populate dropdowns
     populateDropdowns();
@@ -207,6 +243,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (generation) {
             const pokemonList = await fetchPokemonByGeneration(generation);
             displayPokemonGeneration(pokemonList); // Display the Pokémon for the selected generation
+        }
+    });
+
+    filterSetSelect.addEventListener('change', async () => {
+        const set = filterSetSelect.value;
+        if (set) {
+            const cards = await fetchCardsBySet(set);
+            displayPokemonCard(cards); // Display the Pokémon cards for the selected set
         }
     });
 });

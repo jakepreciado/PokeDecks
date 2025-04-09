@@ -10,15 +10,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link rel="icon" href="assets/images/favicon-16x16.png" type="image/png">
     <link rel="stylesheet" href="assets/styles/styles.css">
-    <script src="assets/scripts/search.js" defer></script>
-    <script src="assets/scripts/pokemon.js" defer></script>
-    <script src="assets/scripts/card.js" defer></script>
+    <script type="module" src="assets/scripts/search.js" defer></script>
+    <script type="module" src="assets/scripts/pokemon.js" defer></script>
+    <script type="module" src="assets/scripts/card.js" defer></script>
 </head>
 
 <body>
     <header>
         <div class="header">
-            <a href="/"><img class="pokedecks-title-logo" src="assets/images/pokedecks-title-logo.png" alt="PokeDecks Title Logo"></a>
+            <a href="/"><img class="pokedecks-title-logo" src="assets/images/pokedecks-title-logo.png"
+                    alt="PokeDecks Title Logo"></a>
             <div class="hamburger-menu" id="hamburger-menu">
                 <div class="bar"></div>
                 <div class="bar"></div>
@@ -28,7 +29,8 @@
 
         <nav id="navbar">
             <a href="/my-collection.html">My Collection</a>
-            <a href="/"><img class="pokedecks-title-logo" src="assets/images/pokedecks-title-logo.png" alt="PokeDecks Title Logo"></a>
+            <a href="/"><img class="pokedecks-title-logo" src="assets/images/pokedecks-title-logo.png"
+                    alt="PokeDecks Title Logo"></a>
             <a href="/login.html">Login</a>
         </nav>
     </header>
@@ -38,15 +40,21 @@
                 <option value="">Select Type</option>
             </select>
 
-            <div class="search-bar">
-                <input type="text" id="search-input" placeholder="Search Pokémon...">
-                <button id="search-button">Search</button>
-            </div>
 
             <select id="generation-dropdown">
                 <option value="">Select Generation</option>
             </select>
+
+            <select id="set-dropdown">
+                <option value="">Select Set</option>
+            </select>
         </section>
+
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search Pokémon...">
+            <button id="search-button">Search</button>
+        </div>
+
 
         <section>
             <div id="pokemon-display">
@@ -63,7 +71,7 @@
     <footer class="footer-content">
         <p>&copy; 2025 PokeDecks</p>
         <div class="social-links">
-            <a href="https://github.com/jakepreciado/PokeDecks" target="_blank">GitHub</a> 
+            <a href="https://github.com/jakepreciado/PokeDecks" target="_blank">GitHub</a>
         </div>
     </footer>
 </body>

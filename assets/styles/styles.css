@@ -146,7 +146,10 @@ nav {
 .pokemon-card-image {
     border-radius: 12px;
     box-shadow: 0 0px 15px rgba(0, 0, 0, 0.5);
+    display: block;
+    place-self: center;
     transition: box-shadow 0.2s ease;
+    margin-bottom: 15px;
 }
 
 .pokemon-card-image:hover {

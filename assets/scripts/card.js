@@ -8,6 +8,7 @@ async function fetchPokemonCard(pokemon) {
             headers: {
                 'X-Api-Key': apiKey, // Add the API key in the headers
             },
+
         });
         if (!response.ok) {
             throw new Error(`Error: ${response.status}`);
@@ -73,6 +74,44 @@ function displayPokemonCard(cards) {
     });
 }
 
+export async function fetchCardSets() {
+    try {
+        const response = await fetch(`${tcgBaseUrl}sets`, {
+            headers: {
+                'X-Api-Key': apiKey,
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.data; // Return the sets data
+    } catch (error) {
+        console.error('Failed to fetch sets:', error);
+    }
+}
+
+// Function to fetch all cards from a specific set
+export async function fetchCardsBySet(setId) {
+    try {
+        const response = await fetch(`${tcgBaseUrl}cards?q=set.id:${setId}`, {
+            headers: {
+                'X-Api-Key': apiKey,
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+        const data = await response.json();
+        displayPokemonCard(data.data); // Display the cards
+    } catch (error) {
+        console.error('Failed to fetch cards for set:', error);
+        const cardDisplayDiv = document.getElementById('card-display');
+        cardDisplayDiv.innerHTML = `<p>Failed to fetch cards for the selected set. Please try again.</p>`;
+    }
+}
+
+
 // Event listeners for search functionality
 document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('search-input');
@@ -106,10 +145,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Extract the query parameter from the URL
         const urlParams = new URLSearchParams(window.location.search);
         const query = urlParams.get('query');
-
         if (query) {
             // Fetch and display the Pokémon card data
             fetchPokemonCard(query);
         }
     }
 });
+
