@@ -49,6 +49,8 @@ function displayPokemonType(types) {
     const container = document.createElement('div');
     container.classList.add('card-grid');
 
+    types.sort((a, b) => a.pokemon.name.localeCompare(b.pokemon.name));
+
     types.forEach(async (typeEntry) => {
         try {
             const response = await fetch(typeEntry.pokemon.url);
@@ -61,7 +63,13 @@ function displayPokemonType(types) {
             const image = document.createElement('img');
             image.src = data.sprites.front_default;
             image.alt = data.name;
+            image.onerror = () => {
+                image.src = 'assets/images/pokemon-placeholder.png';
+                image.alt = 'Image not available'; // Fallback image
+            };
+
             card.appendChild(image);
+
 
             // Pokémon name
             const name = document.createElement('h3');
@@ -80,6 +88,8 @@ function displayPokemonType(types) {
     });
 
     displayDiv.appendChild(container);
+    const sortingOptions = document.getElementById('type-generation-sorting-options');
+    sortingOptions.style.display = 'block';
 }
 
 
@@ -98,11 +108,14 @@ async function fetchPokemonByGeneration(generation) {
 }
 
 function displayPokemonGeneration(generation) {
+    console.log(generation)
     const displayDiv = document.getElementById('pokemon-display');
     displayDiv.innerHTML = ''; // Clear previous content
 
     const container = document.createElement('div');
     container.classList.add('card-grid');
+
+    generation.sort((a, b) => a.localeCompare(b));
 
     generation.forEach(async (pokemonName) => {
         try {
@@ -117,6 +130,12 @@ function displayPokemonGeneration(generation) {
             const image = document.createElement('img');
             image.src = data.sprites.front_default;
             image.alt = data.name;
+            image.onerror = () => {
+                image.src = 'assets/images/pokemon-placeholder.png';
+                image.alt = 'Image not available'; // Fallback image
+                image.classList.add('placeholder-image');
+            };
+
             card.appendChild(image);
 
             // Pokémon name
@@ -137,6 +156,8 @@ function displayPokemonGeneration(generation) {
     });
 
     displayDiv.appendChild(container);
+    const sortingOptions = document.getElementById('type-generation-sorting-options');
+    sortingOptions.style.display = 'block';
 }
 
 

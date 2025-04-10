@@ -10,25 +10,38 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link rel="icon" href="assets/images/favicon-16x16.png" type="image/png">
     <link rel="stylesheet" href="assets/styles/styles.css">
-    <script src="assets/scripts/search.js" defer></script>
-    <script src="assets/scripts/pokemon.js" defer></script>
-    <script src="assets/scripts/card.js" defer></script>
+    <script type="module" src="assets/scripts/search.js" defer></script>
+    <script type="module" src="assets/scripts/pokemon.js" defer></script>
+    <script type="module" src="assets/scripts/card.js" defer></script>
 </head>
 
 <body>
     <header>
+        <!-- Desktop Header -->
+        <div class="desktop-header">
+            <nav class="navbar">
+                <a href="/my-collection.html">My Collection</a>
+                <a href="/"><img class="pokedecks-title-logo" src="assets/images/pokedecks-title-logo.png"
+                        alt="PokeDecks Title Logo"></a>
+                <a href="/">Go Back</a>
+            </nav>
+        </div>
 
-
-        <!-- TODO: Add a autofill/suggestion feature of names? -->
-        <nav>
-            <a href="/my-collection.html">My Collection</a>
+        <!-- Mobile Header -->
+        <div class="mobile-header">
             <a href="/"><img class="pokedecks-title-logo" src="assets/images/pokedecks-title-logo.png"
-                    alt="PokeDecks Title Logo"></a>
-            <a href="/login.html">Login</a>
-        </nav>
-
-
+                alt="PokeDecks Title Logo"></a>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <p>- Menu -</p>
+            </div>
+            <nav class="navbar" id="navbar">
+                <a href="/my-collection.html">My Collection</a>
+                <a href="/">Login</a>
+            </nav>
+            <a href="/">- Go Back -</a>
+        </div>
     </header>
+
     <main>
         <section>
             <div id="pokemon-display">
@@ -36,12 +49,19 @@
             </div>
         </section>
 
-        <section>
+        <section class="pokemon-cards-section">
+            <h2 id="card-display-header"></h2>
+            <div class="sorting-options" id="sorting-options" style="display: none;">
+                <button id="sort-alphabetical" class="sort-button">Sort Alphabetically (A-Z)</button>
+                <button id="sort-value-asc" class="sort-button">Sort Value (Lowest to Highest)</button>
+                <button id="sort-value-desc" class="sort-button">Sort Value (Highest to Lowest)</button>
+            </div>
             <div class="card-grid" id="card-display">
                 <!-- Pokémon cards will be dynamically added here -->
             </div>
         </section>
     </main>
+
     <footer class="footer-content">
         <p>&copy; 2025 PokeDecks</p>
         <div class="social-links">

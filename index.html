@@ -17,44 +17,52 @@
 
 <body>
     <header>
-        <div class="header">
+        <!-- Desktop Header -->
+        <div class="desktop-header">
+            <nav class="navbar">
+                <a href="/my-collection.html">My Collection</a>
+                <a href="/"><img class="pokedecks-title-logo" src="assets/images/pokedecks-title-logo.png"
+                        alt="PokeDecks Title Logo"></a>
+                <a href="/">Login</a>
+            </nav>
+        </div>
+
+        <!-- Mobile Header -->
+        <div class="mobile-header">
             <a href="/"><img class="pokedecks-title-logo" src="assets/images/pokedecks-title-logo.png"
-                    alt="PokeDecks Title Logo"></a>
+                alt="PokeDecks Title Logo"></a>
             <div class="hamburger-menu" id="hamburger-menu">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
+                <p>- Menu -</p>
             </div>
+            <nav class="navbar" id="navbar">
+                <a href="/my-collection.html">My Collection</a>
+                <a href="/login.html">Login</a>
+            </nav>
         </div>
-
-        <nav id="navbar">
-            <a href="/my-collection.html">My Collection</a>
-            <a href="/"><img class="pokedecks-title-logo" src="assets/images/pokedecks-title-logo.png"
-                    alt="PokeDecks Title Logo"></a>
-            <a href="/login.html">Login</a>
-        </nav>
     </header>
+
     <main>
-        <section class="filters">
-            <select id="type-dropdown">
-                <option value="">Select Type</option>
-            </select>
+        <section class="search-container">
+            <div class="filters">
+                <select id="type-dropdown">
+                    <option value="">Select Type</option>
+                </select>
 
 
-            <select id="generation-dropdown">
-                <option value="">Select Generation</option>
-            </select>
+                <select id="generation-dropdown">
+                    <option value="">Select Generation</option>
+                </select>
 
-            <select id="set-dropdown">
-                <option value="">Select Set</option>
-            </select>
+                <select id="set-dropdown">
+                    <option value="">Select Set</option>
+                </select>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search Pokémon...">
+                <button id="search-button">Search</button>
+            </div>
         </section>
-
-        <div class="search-bar">
-            <input type="text" id="search-input" placeholder="Search Pokémon...">
-            <button id="search-button">Search</button>
-        </div>
-
 
         <section>
             <div id="pokemon-display">
@@ -62,12 +70,19 @@
             </div>
         </section>
 
-        <section>
+        <section class="pokemon-cards-section">
+            <h2 id="card-display-header"></h2>
+            <div class="sorting-options" id="sorting-options" style="display: none;">
+                <button id="sort-alphabetical" class="sort-button">Sort Alphabetically (A-Z)</button>
+                <button id="sort-value-asc" class="sort-button">Sort Value (Lowest to Highest)</button>
+                <button id="sort-value-desc" class="sort-button">Sort Value (Highest to Lowest)</button>
+            </div>
             <div class="card-grid" id="card-display">
                 <!-- Pokémon cards will be dynamically added here -->
             </div>
         </section>
     </main>
+
     <footer class="footer-content">
         <p>&copy; 2025 PokeDecks</p>
         <div class="social-links">

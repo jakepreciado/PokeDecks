@@ -1,6 +1,9 @@
 const apiKey = '2dbd2739-5953-460a-b721-31d2c7bfb2a4';
 const tcgBaseUrl = 'https://api.pokemontcg.io/v2/';
 
+let loadedCards = []; 
+let isSetSearchGlobal = false;
+
 // Function to fetch Pokémon card data from the backend
 async function fetchPokemonCard(pokemon) {
     try {
@@ -15,7 +18,6 @@ async function fetchPokemonCard(pokemon) {
         }
         const data = await response.json();
         displayPokemonCard(data.data); // Call function to display all card data
-        console.log(data); // Log the card data for debugging
     } catch (error) {
         console.error('Failed to fetch Pokémon card:', error);
         const cardDisplayDiv = document.getElementById('card-display');
@@ -24,14 +26,24 @@ async function fetchPokemonCard(pokemon) {
 }
 
 // Function to display Pokémon card data on the page
-function displayPokemonCard(cards) {
+function displayPokemonCard(cards, isSetSearch = false) {
+    loadedCards = cards;
+    isSetSearchGlobal = isSetSearch;
+
+    const displayDivHeader = document.getElementById('card-display-header');
+    displayDivHeader.textContent = `Displaying ${cards.length} Cards`;
+
     const cardDisplayDiv = document.getElementById('card-display');
-    cardDisplayDiv.innerHTML = ''; // Clear previous content
+    const sortingOptions = document.getElementById('sorting-options');
+
+    cardDisplayDiv.innerHTML = '';
 
     if (cards.length === 0) {
         cardDisplayDiv.innerHTML = `<p>No cards found for this Pokémon.</p>`;
         return;
     }
+    
+    sortingOptions.style.display = 'flex';
 
     cards.forEach(card => {
         const cardContainer = document.createElement('div');
@@ -42,30 +54,26 @@ function displayPokemonCard(cards) {
         cardImage.src = card.images.small; // Small card image
         cardImage.alt = card.name;
         cardImage.setAttribute('loading', 'lazy'); // Lazy load the image
-        cardImage.setAttribute('width', '240'); // Set width for the image
-        cardImage.setAttribute('height', '330'); // Set height for the image
+        cardImage.setAttribute('width', '240px');
+        cardImage.setAttribute('height', '330px'); 
         cardImage.classList.add('pokemon-card-image');
-
-        // cardImage.onerror = () => {
-        //     cardImage.src = '/path/to/placeholder-image.png'; // Replace with the actual path to your placeholder image
-        // };
 
         cardContainer.appendChild(cardImage);
 
         // Add card information
         const cardInfo = document.createElement('div');
         cardInfo.classList.add('card-info');
-        const setName = document.createElement('h3');
-        setName.textContent = card.set.name; // Set name
+        const nameElement = document.createElement('h3');
+        nameElement.textContent = isSetSearch ? card.name : card.set.name; // Use Pokémon name if searching by set
         const rarity = document.createElement('p');
-        rarity.textContent = `Rarity: ${card.rarity}`; // Card rarity
+        rarity.textContent = `Rarity: ${card.rarity}`; 
         const cardValue = document.createElement('p');
         const cardPrice = card.cardmarket?.prices?.averageSellPrice;
         cardValue.textContent = cardPrice
             ? `Value: $${cardPrice.toFixed(2)} USD`
             : `Value: Not available`;
 
-        cardInfo.appendChild(setName);
+        cardInfo.appendChild(nameElement);
         cardInfo.appendChild(rarity);
         cardInfo.appendChild(cardValue);
         cardContainer.appendChild(cardInfo);
@@ -103,7 +111,7 @@ export async function fetchCardsBySet(setId) {
             throw new Error(`Error: ${response.status}`);
         }
         const data = await response.json();
-        displayPokemonCard(data.data); // Display the cards
+        displayPokemonCard(data.data, true); // Display the cards
     } catch (error) {
         console.error('Failed to fetch cards for set:', error);
         const cardDisplayDiv = document.getElementById('card-display');
@@ -150,5 +158,37 @@ document.addEventListener('DOMContentLoaded', () => {
             fetchPokemonCard(query);
         }
     }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const sortAlphabeticalButton = document.getElementById('sort-alphabetical');
+    const sortValueAscButton = document.getElementById('sort-value-asc');
+    const sortValueDescButton = document.getElementById('sort-value-desc');
+
+    // Event listener for alphabetical sorting
+    sortAlphabeticalButton.addEventListener('click', () => {
+        const sortedCards = [...loadedCards].sort((a, b) => a.name.localeCompare(b.name));
+        displayPokemonCard(sortedCards, isSetSearchGlobal); // Use the global variable
+    });
+
+    // Event listener for sorting by value (low to high)
+    sortValueAscButton.addEventListener('click', () => {
+        const sortedCards = [...loadedCards].sort((a, b) => {
+            const valueA = a.cardmarket?.prices?.averageSellPrice || 0;
+            const valueB = b.cardmarket?.prices?.averageSellPrice || 0;
+            return valueA - valueB;
+        });
+        displayPokemonCard(sortedCards, isSetSearchGlobal); // Use the global variable
+    });
+
+    // Event listener for sorting by value (high to low)
+    sortValueDescButton.addEventListener('click', () => {
+        const sortedCards = [...loadedCards].sort((a, b) => {
+            const valueA = a.cardmarket?.prices?.averageSellPrice || 0;
+            const valueB = b.cardmarket?.prices?.averageSellPrice || 0;
+            return valueB - valueA;
+        });
+        displayPokemonCard(sortedCards, isSetSearchGlobal); // Use the global variable
+    });
 });
 
