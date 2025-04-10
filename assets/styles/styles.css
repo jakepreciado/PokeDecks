@@ -22,6 +22,7 @@ body {
 }
 
 .pokedecks-title-logo {
+    margin: auto;
     display: block;
     place-self: center;
     width: 300px;
