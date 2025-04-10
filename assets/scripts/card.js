@@ -165,6 +165,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const sortValueAscButton = document.getElementById('sort-value-asc');
     const sortValueDescButton = document.getElementById('sort-value-desc');
 
+    // Event listener for alphabetical sorting
+    sortAlphabeticalButton.addEventListener('click', () => {
+        const sortedCards = [...loadedCards].sort((a, b) => a.name.localeCompare(b.name));
+        displayPokemonCard(sortedCards, isSetSearchGlobal); // Use the global variable
+    });
+
     // Event listener for sorting by value (low to high)
     sortValueAscButton.addEventListener('click', () => {
         const sortedCards = [...loadedCards].sort((a, b) => {
