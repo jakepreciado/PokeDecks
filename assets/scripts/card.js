@@ -26,33 +26,44 @@ async function fetchPokemonCard(pokemon) {
 }
 
 // Function to display Pokémon card data on the page
-function displayPokemonCard(cards) {
+function displayPokemonCard(cards, isSetSearch = false) {
     loadedCards = cards;
-
+    isSetSearchGlobal = isSetSearch;
     const displayDivHeader = document.getElementById('card-display-header');
     displayDivHeader.textContent = `Displaying ${cards.length} Cards`;
-
     const cardDisplayDiv = document.getElementById('card-display');
     cardDisplayDiv.innerHTML = '';
+    const sortingOptions = document.getElementById('sorting-options');
+
 
     if (cards.length === 0) {
         cardDisplayDiv.innerHTML = `<p>No cards found for this Pokémon.</p>`;
         return;
     }
 
+    sortingOptions.style.display = 'flex';
+
     cards.forEach(card => {
         const cardContainer = document.createElement('div');
         cardContainer.classList.add('card-container');
 
+        // Add card image
         const cardImage = document.createElement('img');
-        cardImage.src = card.images.small;
+        cardImage.src = card.images.small; // Small card image
         cardImage.alt = card.name;
+        cardImage.setAttribute('loading', 'lazy'); // Lazy load the image
+        cardImage.setAttribute('width', '240px');
+        cardImage.setAttribute('height', '330px');
+        cardImage.classList.add('pokemon-card-image');
 
+        cardContainer.appendChild(cardImage);
+
+        // Add card information
         const cardInfo = document.createElement('div');
         cardInfo.classList.add('card-info');
 
         const nameElement = document.createElement('h3');
-        nameElement.textContent = card.name;
+        nameElement.textContent = isSetSearch ? card.name : card.set.name; // Use Pokémon name if searching by set
 
         const rarity = document.createElement('p');
         rarity.textContent = `Rarity: ${card.rarity}`;
@@ -66,7 +77,7 @@ function displayPokemonCard(cards) {
         cardInfo.appendChild(nameElement);
         cardInfo.appendChild(rarity);
         cardInfo.appendChild(cardValue);
-        cardContainer.appendChild(cardImage);
+
         cardContainer.appendChild(cardInfo);
 
         // Add click event to handle adding to collection
@@ -80,6 +91,8 @@ function displayPokemonCard(cards) {
         cardDisplayDiv.appendChild(cardContainer);
     });
 }
+
+
 
 // Function to add a card to the collection in local storage
 function addToCollection(card) {
