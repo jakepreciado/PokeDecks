@@ -1,7 +1,7 @@
 const apiKey = '2dbd2739-5953-460a-b721-31d2c7bfb2a4';
 const tcgBaseUrl = 'https://api.pokemontcg.io/v2/';
 
-let loadedCards = []; 
+let loadedCards = [];
 let isSetSearchGlobal = false;
 
 // Function to fetch Pokémon card data from the backend
@@ -42,7 +42,7 @@ function displayPokemonCard(cards, isSetSearch = false) {
         cardDisplayDiv.innerHTML = `<p>No cards found for this Pokémon.</p>`;
         return;
     }
-    
+
     sortingOptions.style.display = 'flex';
 
     cards.forEach(card => {
@@ -55,7 +55,7 @@ function displayPokemonCard(cards, isSetSearch = false) {
         cardImage.alt = card.name;
         cardImage.setAttribute('loading', 'lazy'); // Lazy load the image
         cardImage.setAttribute('width', '240px');
-        cardImage.setAttribute('height', '330px'); 
+        cardImage.setAttribute('height', '330px');
         cardImage.classList.add('pokemon-card-image');
 
         cardContainer.appendChild(cardImage);
@@ -66,7 +66,7 @@ function displayPokemonCard(cards, isSetSearch = false) {
         const nameElement = document.createElement('h3');
         nameElement.textContent = isSetSearch ? card.name : card.set.name; // Use Pokémon name if searching by set
         const rarity = document.createElement('p');
-        rarity.textContent = `Rarity: ${card.rarity}`; 
+        rarity.textContent = `Rarity: ${card.rarity}`;
         const cardValue = document.createElement('p');
         const cardPrice = card.cardmarket?.prices?.averageSellPrice;
         cardValue.textContent = cardPrice
@@ -161,34 +161,38 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    // Remove this block if "sort-alphabetical" is not needed
     const sortAlphabeticalButton = document.getElementById('sort-alphabetical');
+    if (sortAlphabeticalButton) {
+        sortAlphabeticalButton.addEventListener('click', () => {
+            const sortedCards = [...loadedCards].sort((a, b) => a.name.localeCompare(b.name));
+            displayPokemonCard(sortedCards);
+        });
+    }
+
     const sortValueAscButton = document.getElementById('sort-value-asc');
+    if (sortValueAscButton) {
+        sortValueAscButton.addEventListener('click', () => {
+            const sortedCards = [...loadedCards].sort((a, b) => {
+                const valueA = a.cardmarket?.prices?.averageSellPrice || 0;
+                const valueB = b.cardmarket?.prices?.averageSellPrice || 0;
+                return valueA - valueB;
+            });
+            displayPokemonCard(sortedCards);
+        });
+    }
+
     const sortValueDescButton = document.getElementById('sort-value-desc');
-
-    // Event listener for alphabetical sorting
-    sortAlphabeticalButton.addEventListener('click', () => {
-        const sortedCards = [...loadedCards].sort((a, b) => a.name.localeCompare(b.name));
-        displayPokemonCard(sortedCards, isSetSearchGlobal); // Use the global variable
-    });
-
-    // Event listener for sorting by value (low to high)
-    sortValueAscButton.addEventListener('click', () => {
-        const sortedCards = [...loadedCards].sort((a, b) => {
-            const valueA = a.cardmarket?.prices?.averageSellPrice || 0;
-            const valueB = b.cardmarket?.prices?.averageSellPrice || 0;
-            return valueA - valueB;
+    if (sortValueDescButton) {
+        sortValueDescButton.addEventListener('click', () => {
+            const sortedCards = [...loadedCards].sort((a, b) => {
+                const valueA = a.cardmarket?.prices?.averageSellPrice || 0;
+                const valueB = b.cardmarket?.prices?.averageSellPrice || 0;
+                return valueB - valueA;
+            });
+            displayPokemonCard(sortedCards, isSetSearchGlobal); // Use the global variable
         });
-        displayPokemonCard(sortedCards, isSetSearchGlobal); // Use the global variable
-    });
-
-    // Event listener for sorting by value (high to low)
-    sortValueDescButton.addEventListener('click', () => {
-        const sortedCards = [...loadedCards].sort((a, b) => {
-            const valueA = a.cardmarket?.prices?.averageSellPrice || 0;
-            const valueB = b.cardmarket?.prices?.averageSellPrice || 0;
-            return valueB - valueA;
-        });
-        displayPokemonCard(sortedCards, isSetSearchGlobal); // Use the global variable
-    });
+    }
 });
 
