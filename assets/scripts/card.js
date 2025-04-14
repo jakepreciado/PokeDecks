@@ -26,16 +26,13 @@ async function fetchPokemonCard(pokemon) {
 }
 
 // Function to display Pokémon card data on the page
-function displayPokemonCard(cards, isSetSearch = false) {
+function displayPokemonCard(cards) {
     loadedCards = cards;
-    isSetSearchGlobal = isSetSearch;
 
     const displayDivHeader = document.getElementById('card-display-header');
     displayDivHeader.textContent = `Displaying ${cards.length} Cards`;
 
     const cardDisplayDiv = document.getElementById('card-display');
-    const sortingOptions = document.getElementById('sorting-options');
-
     cardDisplayDiv.innerHTML = '';
 
     if (cards.length === 0) {
@@ -43,30 +40,23 @@ function displayPokemonCard(cards, isSetSearch = false) {
         return;
     }
 
-    sortingOptions.style.display = 'flex';
-
     cards.forEach(card => {
         const cardContainer = document.createElement('div');
         cardContainer.classList.add('card-container');
 
-        // Add card image
         const cardImage = document.createElement('img');
-        cardImage.src = card.images.small; // Small card image
+        cardImage.src = card.images.small;
         cardImage.alt = card.name;
-        cardImage.setAttribute('loading', 'lazy'); // Lazy load the image
-        cardImage.setAttribute('width', '240px');
-        cardImage.setAttribute('height', '330px');
-        cardImage.classList.add('pokemon-card-image');
 
-        cardContainer.appendChild(cardImage);
-
-        // Add card information
         const cardInfo = document.createElement('div');
         cardInfo.classList.add('card-info');
+
         const nameElement = document.createElement('h3');
-        nameElement.textContent = isSetSearch ? card.name : card.set.name; // Use Pokémon name if searching by set
+        nameElement.textContent = card.name;
+
         const rarity = document.createElement('p');
         rarity.textContent = `Rarity: ${card.rarity}`;
+
         const cardValue = document.createElement('p');
         const cardPrice = card.cardmarket?.prices?.averageSellPrice;
         cardValue.textContent = cardPrice
@@ -76,10 +66,34 @@ function displayPokemonCard(cards, isSetSearch = false) {
         cardInfo.appendChild(nameElement);
         cardInfo.appendChild(rarity);
         cardInfo.appendChild(cardValue);
+        cardContainer.appendChild(cardImage);
         cardContainer.appendChild(cardInfo);
+
+        // Add click event to handle adding to collection
+        cardContainer.addEventListener('click', () => {
+            const confirmAdd = confirm(`Would you like to add ${card.name} to your collection?`);
+            if (confirmAdd) {
+                addToCollection(card);
+            }
+        });
 
         cardDisplayDiv.appendChild(cardContainer);
     });
+}
+
+// Function to add a card to the collection in local storage
+function addToCollection(card) {
+    const collection = JSON.parse(localStorage.getItem('myCollection')) || [];
+    const isAlreadyInCollection = collection.some(item => item.id === card.id);
+
+    if (isAlreadyInCollection) {
+        alert(`${card.name} is already in your collection.`);
+        return;
+    }
+
+    collection.push(card);
+    localStorage.setItem('myCollection', JSON.stringify(collection));
+    alert(`${card.name} has been added to your collection!`);
 }
 
 export async function fetchCardSets() {

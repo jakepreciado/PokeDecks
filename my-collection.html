@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokeDecks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/images/favicon-16x16.png" type="image/png">
+    <link rel="stylesheet" href="assets/styles/styles.css">
+    <script type="module" src="assets/scripts/search.js" defer></script>
+    <script type="module" src="assets/scripts/pokemon.js" defer></script>
+    <script type="module" src="assets/scripts/card.js" defer></script>
+    <script type="module" src="assets/scripts/collection.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <!-- Desktop Header -->
+        <div class="desktop-header">
+            <nav class="navbar">
+                <a href="/PokeDecks/my-collection.html">My Collection</a>
+                <a href="/PokeDecks/"><img class="pokedecks-title-logo" src="assets/images/pokedecks-title-logo.png"
+                        alt="PokeDecks Title Logo"></a>
+                <a href="/PokeDecks/">Go Back</a>
+            </nav>
+        </div>
+
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <a href="/PokeDecks/"><img class="pokedecks-title-logo" src="assets/images/pokedecks-title-logo.png"
+                    alt="PokeDecks Title Logo"></a>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <p>- Menu -</p>
+            </div>
+            <nav class="navbar" id="navbar">
+                <a href="/PokeDecks/my-collection.html">My Collection</a>
+                <a href="/PokeDecks/">Go Back</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <div id="collection-display">
+                <!-- Collection cards will be dynamically added here -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-content">
+        <p>&copy; 2025 PokeDecks</p>
+        <div class="social-links">
+            <a href="https://github.com/jakepreciado/PokeDecks" target="_blank">GitHub</a>
+        </div>
+    </footer>
+</body>
+
+</html>
