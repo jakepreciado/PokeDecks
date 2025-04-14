@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const valueB = b.cardmarket?.prices?.averageSellPrice || 0;
                 return valueB - valueA;
             });
-            displayPokemonCard(sortedCards, isSetSearchGlobal); // Use the global variable
+            displayPokemonCard(sortedCards, isSetSearchGlobal);
         });
     }
 });
