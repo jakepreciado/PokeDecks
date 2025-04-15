@@ -1,3 +1,5 @@
+import removeFromWishlist from './wishlistFunctions.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
     const wishlistDisplayDiv = document.getElementById('wishlist-display');

@@ -205,7 +205,7 @@ function showModal(card) {
 
 
 // add a card to the collection in local storage
-function addToCollection(card) {
+export default function addToCollection(card) {
     const collection = JSON.parse(localStorage.getItem('myCollection')) || [];
     const wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
     const isAlreadyInCollection = collection.some(item => item.id === card.id);
@@ -229,7 +229,7 @@ function addToCollection(card) {
 }
 
 // remove a card from the collection
-function removeFromCollection(cardId) {
+export default function removeFromCollection(cardId) {
     let collection = JSON.parse(localStorage.getItem('myCollection')) || [];
     collection = collection.filter(card => card.id !== cardId);
     localStorage.setItem('myCollection', JSON.stringify(collection));
@@ -238,7 +238,7 @@ function removeFromCollection(cardId) {
 }
 
 // add a card to the wishlist
-function addToWishlist(card) {
+export default function addToWishlist(card) {
     const wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
     const isAlreadyInWishlist = wishlist.some(item => item.id === card.id);
 
@@ -254,7 +254,7 @@ function addToWishlist(card) {
 }
 
 // Function to remove a card from the wishlist
-function removeFromWishlist(cardId) {
+export default function removeFromWishlist(cardId) {
     let wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
     wishlist = wishlist.filter(card => card.id !== cardId);
     localStorage.setItem('myWishlist', JSON.stringify(wishlist));
