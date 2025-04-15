@@ -1,4 +1,4 @@
-import { removeFromCollection } from './removeFromCollection.js';
+import { removeFromCollection } from './card.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const collection = JSON.parse(localStorage.getItem('myCollection')) || [];

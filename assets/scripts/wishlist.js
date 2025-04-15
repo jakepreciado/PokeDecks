@@ -1,4 +1,4 @@
-import { removeFromWishlist } from './wishlistFunctions.js';
+import { removeFromWishlist } from './card.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
