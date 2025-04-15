@@ -142,6 +142,7 @@ nav a {
 
 .stats-table {
     width: 350px;
+    margin: auto;
 }
 
 .stats-table td {
