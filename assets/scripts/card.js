@@ -26,7 +26,7 @@ async function fetchPokemonCard(pokemon) {
 }
 
 // Function to display Pokémon card data on the page
-export default function displayPokemonCard(cards, isSetSearch = false) {
+export function displayPokemonCard(cards, isSetSearch = false) {
     const collection = JSON.parse(localStorage.getItem('myCollection')) || [];
     const wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
 
@@ -205,7 +205,7 @@ function showModal(card) {
 
 
 // add a card to the collection in local storage
-export default function addToCollection(card) {
+export function addToCollection(card) {
     const collection = JSON.parse(localStorage.getItem('myCollection')) || [];
     const wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
     const isAlreadyInCollection = collection.some(item => item.id === card.id);
@@ -229,7 +229,7 @@ export default function addToCollection(card) {
 }
 
 // remove a card from the collection
-export default function removeFromCollection(cardId) {
+export function removeFromCollection(cardId) {
     let collection = JSON.parse(localStorage.getItem('myCollection')) || [];
     collection = collection.filter(card => card.id !== cardId);
     localStorage.setItem('myCollection', JSON.stringify(collection));
@@ -238,7 +238,7 @@ export default function removeFromCollection(cardId) {
 }
 
 // add a card to the wishlist
-export default function addToWishlist(card) {
+export function addToWishlist(card) {
     const wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
     const isAlreadyInWishlist = wishlist.some(item => item.id === card.id);
 
@@ -254,7 +254,7 @@ export default function addToWishlist(card) {
 }
 
 // Function to remove a card from the wishlist
-export default function removeFromWishlist(cardId) {
+export function removeFromWishlist(cardId) {
     let wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
     wishlist = wishlist.filter(card => card.id !== cardId);
     localStorage.setItem('myWishlist', JSON.stringify(wishlist));
