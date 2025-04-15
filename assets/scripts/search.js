@@ -1,16 +1,6 @@
 import { fetchCardSets, fetchCardsBySet } from './card.js';
 const pokeBaseUrl = 'https://pokeapi.co/api/v2/';
 
-
-
-// Hamburger menu toggle
-document.getElementById('hamburger-menu').addEventListener('click', function () {
-    document.getElementById('navbar').classList.toggle('show');
-});
-
-
-
-
 // Fetch Pokémon data by name or ID
 async function fetchPokemonData(query) {
     try {

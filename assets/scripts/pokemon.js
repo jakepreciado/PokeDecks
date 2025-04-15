@@ -1,5 +1,10 @@
 const pokeBaseUrl = 'https://pokeapi.co/api/v2/';
 
+// Hamburger menu toggle
+document.getElementById('hamburger-menu').addEventListener('click', function () {
+    document.getElementById('navbar').classList.toggle('show');
+});
+
 // Fetch Pokémon data from the API
 async function fetchPokemon(pokemon) {
     try {
