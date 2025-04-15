@@ -1,5 +1,11 @@
 import { removeFromCollection } from './card.js';
 
+// Hamburger menu toggle
+document.getElementById('hamburger-menu').addEventListener('click', function () {
+    document.getElementById('navbar').classList.toggle('show');
+});
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const collection = JSON.parse(localStorage.getItem('myCollection')) || [];
     const collectionDisplayDiv = document.getElementById('collection-display');

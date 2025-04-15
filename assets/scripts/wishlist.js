@@ -1,5 +1,11 @@
 import { removeFromWishlist } from './card.js';
 
+// Hamburger menu toggle
+document.getElementById('hamburger-menu').addEventListener('click', function () {
+    document.getElementById('navbar').classList.toggle('show');
+});
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
     const wishlistDisplayDiv = document.getElementById('wishlist-display');

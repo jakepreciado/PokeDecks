@@ -449,6 +449,11 @@ nav a {
 
 
 @media screen and (max-width: 480px) {
+    .sorting-options {
+        flex-direction: column;
+        margin: 10px;
+    }
+
     .pokemon-container img {
         width: 300px;
     }
