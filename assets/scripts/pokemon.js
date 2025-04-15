@@ -99,24 +99,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchButton = document.getElementById('search-button');
 
     // Trigger search on button click
-    searchButton.addEventListener('click', () => {
-        const pokemon = searchInput.value.trim().toLowerCase();
-        if (pokemon) {
-            // Navigate to the new page with the search query as a URL parameter
-            window.location.href = `pokemon.html?query=${encodeURIComponent(pokemon)}`;
-        }
-    });
-
-    // Trigger search on pressing "Enter"
-    searchInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
+    if (searchButton) {
+        searchButton.addEventListener('click', () => {
             const pokemon = searchInput.value.trim().toLowerCase();
             if (pokemon) {
                 // Navigate to the new page with the search query as a URL parameter
                 window.location.href = `pokemon.html?query=${encodeURIComponent(pokemon)}`;
             }
-        }
-    });
+        });
+    }
+
+    // Trigger search on pressing "Enter"
+    if (searchInput) {
+        searchInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                const pokemon = searchInput.value.trim().toLowerCase();
+                if (pokemon) {
+                    // Navigate to the new page with the search query as a URL parameter
+                    window.location.href = `pokemon.html?query=${encodeURIComponent(pokemon)}`;
+                }
+            }
+        });
+    }
 });
 
 // Check if we're on the pokemon.html page and handle query parameters

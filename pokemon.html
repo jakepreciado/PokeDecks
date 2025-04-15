@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link rel="icon" href="assets/images/favicon-16x16.png" type="image/png">
     <link rel="stylesheet" href="assets/styles/styles.css">
-    <script type="module" src="assets/scripts/search.js" defer></script>
     <script type="module" src="assets/scripts/pokemon.js" defer></script>
     <script type="module" src="assets/scripts/card.js" defer></script>
 </head>
@@ -67,6 +66,17 @@
             <a href="https://github.com/jakepreciado/PokeDecks" target="_blank">GitHub</a>
         </div>
     </footer>
+
+    <div id="card-modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal" class="close">&times;</span>
+            <h3 id="modal-card-name">Card Name</h3>
+            <p id="modal-card-description"></p>
+
+            <img id="modal-card-image" src="" alt="Card Image" style="max-width: 100%; height: auto; margin: 10px 0;">
+            <div id="modal-buttons"></div> <!-- Container for buttons -->
+        </div>
+    </div>
 </body>
 
 </html>

@@ -21,23 +21,32 @@ async function fetchPokemonCard(pokemon) {
     } catch (error) {
         console.error('Failed to fetch Pokémon card:', error);
         const cardDisplayDiv = document.getElementById('card-display');
-        cardDisplayDiv.innerHTML = `<p>Card not found. Please try again.</p>`;
+        cardDisplayDiv.innerHTML = `<p class="empty-message">Card not found. Please try again.</p>`;
     }
 }
 
 // Function to display Pokémon card data on the page
-function displayPokemonCard(cards, isSetSearch = false) {
+export default function displayPokemonCard(cards, isSetSearch = false) {
+    const collection = JSON.parse(localStorage.getItem('myCollection')) || [];
+    const wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
+
     loadedCards = cards;
     isSetSearchGlobal = isSetSearch;
+
     const displayDivHeader = document.getElementById('card-display-header');
-    displayDivHeader.textContent = `Displaying ${cards.length} Cards`;
+    if (displayDivHeader) {
+        displayDivHeader.textContent = `Displaying ${cards.length} Cards`;
+    }
+
     const cardDisplayDiv = document.getElementById('card-display');
-    cardDisplayDiv.innerHTML = '';
+    if (cardDisplayDiv) {
+        cardDisplayDiv.innerHTML = '';
+    }
+
     const sortingOptions = document.getElementById('sorting-options');
 
-
-    if (cards.length === 0) {
-        cardDisplayDiv.innerHTML = `<p>No cards found for this Pokémon.</p>`;
+    if (cardDisplayDiv && cards.length === 0) {
+        cardDisplayDiv.innerHTML = `<p class="empty-message">No cards found for this Pokémon.</p>`;
         return;
     }
 
@@ -49,12 +58,23 @@ function displayPokemonCard(cards, isSetSearch = false) {
 
         // Add card image
         const cardImage = document.createElement('img');
-        cardImage.src = card.images.small; // Small card image
+        cardImage.src = card.images.small;
+        cardImage.onerror = () => {
+            cardImage.src = '../images/card-placeholder.png'; // Fallback to placeholder image
+        };
         cardImage.alt = card.name;
-        cardImage.setAttribute('loading', 'lazy'); // Lazy load the image
+        cardImage.setAttribute('loading', 'lazy'); 
         cardImage.setAttribute('width', '240px');
         cardImage.setAttribute('height', '330px');
         cardImage.classList.add('pokemon-card-image');
+        const isInCollection = collection.some(item => item.id === card.id);
+        const isInWishlist = wishlist.some(item => item.id === card.id);
+        if (isInWishlist) {
+            cardImage.classList.add('added-to-wishlist'); // Add the class if the card is in the wishlist
+        }
+        if (isInCollection) {
+            cardImage.classList.add('added-to-collection'); // Add the class if the card is in the collection
+        }
 
         cardContainer.appendChild(cardImage);
 
@@ -80,12 +100,8 @@ function displayPokemonCard(cards, isSetSearch = false) {
 
         cardContainer.appendChild(cardInfo);
 
-        // Add click event to handle adding to collection
         cardContainer.addEventListener('click', () => {
-            const confirmAdd = confirm(`Would you like to add ${card.name} to your collection?`);
-            if (confirmAdd) {
-                addToCollection(card);
-            }
+            showModal(card);
         });
 
         cardDisplayDiv.appendChild(cardContainer);
@@ -94,20 +110,161 @@ function displayPokemonCard(cards, isSetSearch = false) {
 
 
 
-// Function to add a card to the collection in local storage
+
+
+// Function to show the modal
+function showModal(card) {
+    const modal = document.getElementById('card-modal');
+    const modalCardName = document.getElementById('modal-card-name');
+    const modalCardDescription = document.getElementById('modal-card-description');
+    const modalCardImage = document.getElementById('modal-card-image'); 
+    const modalButtonsContainer = document.getElementById('modal-buttons'); 
+    const closeModalButton = document.getElementById('close-modal');
+
+    const collection = JSON.parse(localStorage.getItem('myCollection')) || [];
+    const wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
+    const isInCollection = collection.some(item => item.id === card.id);
+    const isInWishlist = wishlist.some(item => item.id === card.id);
+
+    modalCardName.textContent = card.name;
+    modalCardDescription.textContent = '';
+    modalCardImage.src = card.images.small; 
+
+    modalButtonsContainer.innerHTML = '';
+
+    if (isInCollection) {
+        // If in collection
+        modalCardDescription.textContent = "Card is in your collection."; 
+        const removeFromCollectionButton = document.createElement('button');
+        removeFromCollectionButton.classList.add('remove-button');
+        removeFromCollectionButton.textContent = 'Remove from Collection';
+        removeFromCollectionButton.onclick = () => {
+            removeFromCollection(card.id);
+            modal.style.display = 'none'; 
+        };
+        modalButtonsContainer.appendChild(removeFromCollectionButton);
+    } else if (isInWishlist) {
+        // If in wishlist
+        modalCardDescription.textContent = "Card is in your wishlist."; 
+        const addToCollectionButton = document.createElement('button');
+        addToCollectionButton.classList.add('add-to-collection-button');
+        addToCollectionButton.textContent = 'Add to Collection';
+        addToCollectionButton.onclick = () => {
+            addToCollection(card);
+            modal.style.display = 'none'; 
+        };
+
+        const removeFromWishlistButton = document.createElement('button');
+        removeFromWishlistButton.classList.add('remove-button');
+        removeFromWishlistButton.textContent = 'Remove from Wishlist';
+        removeFromWishlistButton.onclick = () => {
+            removeFromWishlist(card.id);
+            modal.style.display = 'none'; 
+        };
+
+        modalButtonsContainer.appendChild(addToCollectionButton);
+        modalButtonsContainer.appendChild(removeFromWishlistButton);
+    } else {
+        // If the card is neither list
+        const addToCollectionButton = document.createElement('button');
+        addToCollectionButton.classList.add('add-to-collection-button');
+        addToCollectionButton.textContent = 'Add to Collection';
+        addToCollectionButton.onclick = () => {
+            addToCollection(card);
+            modal.style.display = 'none'; 
+        };
+
+        const addToWishlistButton = document.createElement('button');
+        addToWishlistButton.classList.add('add-to-wishlist-button');
+        addToWishlistButton.textContent = 'Add to Wishlist';
+        addToWishlistButton.onclick = () => {
+            addToWishlist(card);
+            modal.style.display = 'none'; 
+        };
+
+        modalButtonsContainer.appendChild(addToCollectionButton);
+        modalButtonsContainer.appendChild(addToWishlistButton);
+    }
+
+    modal.style.display = 'block';
+
+    closeModalButton.onclick = () => {
+        modal.style.display = 'none';
+    };
+
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+}
+
+
+
+
+
+
+// add a card to the collection in local storage
 function addToCollection(card) {
     const collection = JSON.parse(localStorage.getItem('myCollection')) || [];
+    const wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
     const isAlreadyInCollection = collection.some(item => item.id === card.id);
+    const isInWishlist = wishlist.some(item => item.id === card.id);
 
     if (isAlreadyInCollection) {
         alert(`${card.name} is already in your collection.`);
         return;
     }
 
+    // Remove the card from the wishlist if it exists
+    if (isInWishlist) {
+        const updatedWishlist = wishlist.filter(item => item.id !== card.id);
+        localStorage.setItem('myWishlist', JSON.stringify(updatedWishlist));
+    }
+
     collection.push(card);
     localStorage.setItem('myCollection', JSON.stringify(collection));
     alert(`${card.name} has been added to your collection!`);
+    location.reload();
 }
+
+// remove a card from the collection
+function removeFromCollection(cardId) {
+    let collection = JSON.parse(localStorage.getItem('myCollection')) || [];
+    collection = collection.filter(card => card.id !== cardId);
+    localStorage.setItem('myCollection', JSON.stringify(collection));
+    alert('Card removed from your collection.');
+    location.reload(); // Reload the page to update the collection display
+}
+
+// add a card to the wishlist
+function addToWishlist(card) {
+    const wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
+    const isAlreadyInWishlist = wishlist.some(item => item.id === card.id);
+
+    if (isAlreadyInWishlist) {
+        alert(`${card.name} is already in your wishlist.`);
+        return;
+    }
+
+    wishlist.push(card);
+    localStorage.setItem('myWishlist', JSON.stringify(wishlist));
+    alert(`${card.name} has been added to your wishlist!`);
+    location.reload();
+}
+
+// Function to remove a card from the wishlist
+function removeFromWishlist(cardId) {
+    let wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
+    wishlist = wishlist.filter(card => card.id !== cardId);
+    localStorage.setItem('myWishlist', JSON.stringify(wishlist));
+    alert('Card removed from your wishlist.');
+    location.reload(); // Reload the page to update the wishlist display
+}
+
+
+
+
 
 export async function fetchCardSets() {
     try {
@@ -147,32 +304,41 @@ export async function fetchCardsBySet(setId) {
 }
 
 
+
+
+
+
+
 // Event listeners for search functionality
 document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('search-input');
     const searchButton = document.getElementById('search-button');
 
     // Trigger search on button click
-    searchButton.addEventListener('click', () => {
-        const pokemon = searchInput.value.trim().toLowerCase();
-        console.log(`Searching for ${pokemon} cards...`);
-        if (pokemon) {
-            // Redirect to the new page with the search query as a URL parameter
-            window.location.href = `pokemon.html?query=${encodeURIComponent(pokemon)}`;
-        }
-    });
-
-    // Trigger search on pressing "Enter"
-    searchInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
+    if (searchButton) {
+        searchButton.addEventListener('click', () => {
             const pokemon = searchInput.value.trim().toLowerCase();
             console.log(`Searching for ${pokemon} cards...`);
             if (pokemon) {
                 // Redirect to the new page with the search query as a URL parameter
                 window.location.href = `pokemon.html?query=${encodeURIComponent(pokemon)}`;
             }
-        }
-    });
+        });
+    }
+
+    // Trigger search on pressing "Enter"
+    if (searchInput) {
+        searchInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                const pokemon = searchInput.value.trim().toLowerCase();
+                console.log(`Searching for ${pokemon} cards...`);
+                if (pokemon) {
+                    // Redirect to the new page with the search query as a URL parameter
+                    window.location.href = `pokemon.html?query=${encodeURIComponent(pokemon)}`;
+                }
+            }
+        });
+    }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -189,7 +355,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Remove this block if "sort-alphabetical" is not needed
     const sortAlphabeticalButton = document.getElementById('sort-alphabetical');
     if (sortAlphabeticalButton) {
         sortAlphabeticalButton.addEventListener('click', () => {

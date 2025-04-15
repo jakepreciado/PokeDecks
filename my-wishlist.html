@@ -11,7 +11,7 @@
     <link rel="icon" href="assets/images/favicon-16x16.png" type="image/png">
     <link rel="stylesheet" href="assets/styles/styles.css">
     <script type="module" src="assets/scripts/card.js" defer></script>
-    <script type="module" src="assets/scripts/collection.js" defer></script>
+    <script type="module" src="assets/scripts/wishlist.js" defer></script>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
         <!-- Desktop Header -->
         <div class="desktop-header">
             <nav class="navbar">
-                <a href="/PokeDecks/my-wishlist.html">My Wishlist</a>
+                <a href="/PokeDecks/my-collection.html">My Collection</a>
                 <a href="/PokeDecks/"><img class="pokedecks-title-logo" src="assets/images/pokedecks-title-logo.png"
                         alt="PokeDecks Title Logo"></a>
                 <a href="/PokeDecks/">Go Back</a>
@@ -34,26 +34,25 @@
                 <p>- Menu -</p>
             </div>
             <nav class="navbar" id="navbar">
-                <a href="/PokeDecks/my-wishlist.html">My Wishlist</a>
+                <a href="/PokeDecks/my-collection.html">My Collection</a>
                 <a href="/PokeDecks/">Go Back</a>
             </nav>
         </div>
     </header>
 
     <main>
-        <section class="collection-information">
-            <h2 class="collection-header">My Collection</h2>
-            <div id="collection-stats"></div>
+        <section class="wishlist-information">
+            <h2 class="wishlist-header">My Wishlist</h2>
+            <div id="wishlist-stats"></div>
             <div id="total-cards"></div>
         </section>
-
         <div class="sorting-options" id="sorting-options" style="display: none;">
             <button id="sort-alphabetical">Sort Alphabetically</button>
             <button id="sort-value-asc" class="sort-button">Sort Value (Lowest to Highest)</button>
             <button id="sort-value-desc" class="sort-button">Sort Value (Highest to Lowest)</button>
         </div>
         <section>
-            <div class="card-grid" id="collection-display">
+            <div class="card-grid" id="wishlist-display">
                 <!-- Collection cards will be dynamically added here -->
             </div>
         </section>

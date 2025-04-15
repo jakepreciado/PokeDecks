@@ -1,63 +1,56 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const collection = JSON.parse(localStorage.getItem('myCollection')) || [];
-    const collectionDisplayDiv = document.getElementById('collection-display');
+    const wishlist = JSON.parse(localStorage.getItem('myWishlist')) || [];
+    const wishlistDisplayDiv = document.getElementById('wishlist-display');
     const sortingOptions = document.getElementById('sorting-options');
 
-    if (collection.length === 0) {
-        collectionDisplayDiv.innerHTML = `<p class="empty-message">Your collection is empty!</p>`;
+    if (wishlist.length === 0) {
+        wishlistDisplayDiv.innerHTML = `<p class="empty-message">Your wishlist is empty!</p>`;
         return;
     } else {
         sortingOptions.style.display = 'flex';
     }
 
+    calculateWishlistStats(wishlist);
 
-    // Display collection stats
-    calculateCollectionStats(collection);
+    renderWishlist(wishlist);
 
-    // Render the collection
-    renderCollection(collection);
-
-    // Add event listeners for sorting buttons
     document.getElementById('sort-alphabetical').addEventListener('click', () => {
-        const sortedCollection = [...collection].sort((a, b) => a.name.localeCompare(b.name));
-        renderCollection(sortedCollection);
+        const sortedWishlist = [...wishlist].sort((a, b) => a.name.localeCompare(b.name));
+        renderWishlist(sortedWishlist);
     });
 
     document.getElementById('sort-value-asc').addEventListener('click', () => {
-        console.log("ascending");
-        const sortedCards = [...collection].sort((a, b) => {
+        const sortedCards = [...wishlist].sort((a, b) => {
             const valueA = a.cardmarket?.prices?.averageSellPrice || 0;
             const valueB = b.cardmarket?.prices?.averageSellPrice || 0;
             return valueA - valueB;
         });
-        renderCollection(sortedCards);
+        renderWishlist(sortedCards);
     });
 
-
     document.getElementById('sort-value-desc').addEventListener('click', () => {
-        console.log("descending");
-        const sortedCards = [...collection].sort((a, b) => {
+        const sortedCards = [...wishlist].sort((a, b) => {
             const valueA = a.cardmarket?.prices?.averageSellPrice || 0;
             const valueB = b.cardmarket?.prices?.averageSellPrice || 0;
             return valueB - valueA;
         });
-        renderCollection(sortedCards);
+        renderWishlist(sortedCards);
     });
 });
 
-// Function to render the collection
-function renderCollection(collection) {
-    const collectionDisplayDiv = document.getElementById('collection-display');
-    collectionDisplayDiv.innerHTML = ''; // Clear the current display
+// Function to render the wishlist
+function renderWishlist(wishlist) {
+    const wishlistDisplayDiv = document.getElementById('wishlist-display');
+    wishlistDisplayDiv.innerHTML = ''; 
 
-    collection.forEach(card => {
+    wishlist.forEach(card => {
         const cardContainer = document.createElement('div');
         cardContainer.classList.add('card-container');
 
         const cardImage = document.createElement('img');
         cardImage.src = card.images.small;
         cardImage.alt = card.name;
-        cardImage.setAttribute('loading', 'lazy'); // Lazy load the image
+        cardImage.setAttribute('loading', 'lazy');
         cardImage.setAttribute('width', '240px');
         cardImage.setAttribute('height', '330px');
         cardImage.classList.add('pokemon-card-image');
@@ -83,35 +76,46 @@ function renderCollection(collection) {
         cardContainer.appendChild(cardImage);
         cardContainer.appendChild(cardInfo);
 
-        // Add remove button
-        const removeButton = document.createElement('button');
-        removeButton.classList.add('remove-button');
-        removeButton.textContent = 'Remove from Collection';
-        removeButton.addEventListener('click', () => {
-            removeFromCollection(card.id);
+        const addToCollectionButton = document.createElement('button');
+        addToCollectionButton.classList.add('add-to-collection-button');
+        addToCollectionButton.textContent = 'Add to Collection';
+        addToCollectionButton.addEventListener('click', () => {
+            let collection = JSON.parse(localStorage.getItem('myCollection')) || [];
+            collection.push(card);
+            localStorage.setItem('myCollection', JSON.stringify(collection));
+            removeFromWishlist(card.id); 
+            alert('Card added to your collection!');
         });
 
+        const removeButton = document.createElement('button');
+        removeButton.classList.add('remove-button');
+        removeButton.textContent = 'Remove from Wishlist';
+        removeButton.addEventListener('click', () => {
+            removeFromWishlist(card.id);
+        });
+
+        cardContainer.appendChild(addToCollectionButton);
         cardContainer.appendChild(removeButton);
-        collectionDisplayDiv.appendChild(cardContainer);
+        wishlistDisplayDiv.appendChild(cardContainer);
     });
 
-    calculateCollectionStats(collection);
+    calculateWishlistStats(wishlist);
 }
 
-function calculateCollectionStats(collection) {
-    const totalValue = collection.reduce((sum, card) => {
+function calculateWishlistStats(wishlist) {
+    const totalValue = wishlist.reduce((sum, card) => {
         const cardPrice = card.cardmarket?.prices?.averageSellPrice || 0;
         return sum + cardPrice;
     }, 0);
 
-    const statsDiv = document.getElementById('collection-stats');
+    const statsDiv = document.getElementById('wishlist-stats');
     if (statsDiv) {
-        statsDiv.textContent = `Estimated Collection Value: $${totalValue.toFixed(2)} USD`;
+        statsDiv.textContent = `Estimated Wishlist Value: $${totalValue.toFixed(2)} USD`;
     }
 
-    const totalCards = collection.length;
+    const totalCards = wishlist.length;
     const totalCardsDiv = document.getElementById('total-cards');
     if (totalCardsDiv) {
-        totalCardsDiv.textContent = `Total Cards in Collection: ${totalCards}`;
+        totalCardsDiv.textContent = `Total Cards in Wishlist: ${totalCards}`;
     }
 }
