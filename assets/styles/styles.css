@@ -3,15 +3,13 @@
     src: url('../fonts/pokemon-classic.ttf') format('truetype');
 }
 
-* {
-    margin: auto;
-    max-width: 1600px;
-}
+
 
 body {
-    margin: 0;
     display: flex;
     flex-direction: column;
+     margin: auto;
+     max-width: 1600px;
 }
 
 /* main {
@@ -250,6 +248,11 @@ nav a {
     justify-content: space-evenly;
 }
 
+.sort-button {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 .sorting-options button {
     font-family: "PokemonClassic", sans-serif;
     margin-bottom: 30px;
@@ -352,7 +355,7 @@ nav a {
 
 @media screen and (max-width: 768px) {
 
-
+    
 
     .search-container {
         flex-direction: column;
@@ -450,6 +453,9 @@ nav a {
 
 
 @media screen and (max-width: 480px) {
+
+
+
     .sorting-options {
         flex-direction: column;
     }
