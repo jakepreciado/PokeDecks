@@ -257,7 +257,7 @@ nav a {
 .remove-button,
 .add-to-wishlist-button,
 .add-to-collection-button {
-    margin: 5px;
+    margin: auto;
     font-family: 'Quicksand', sans-serif;
     font-weight: bold;
     padding: 5px;
